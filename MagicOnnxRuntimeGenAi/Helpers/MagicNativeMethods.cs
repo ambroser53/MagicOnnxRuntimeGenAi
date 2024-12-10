@@ -82,6 +82,13 @@ public partial class MagicNativeMethods
         return method(generatorParams, searchOption, value);
     }
 
+    private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidanceDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data);
+    public IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidance(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data)
+    {
+        var method = GetNativeMethod<OgaGeneratorParamsSetGuidanceDelegate>("OgaGeneratorParamsSetGuidance");
+        return method(generatorParams, type, data);
+    }
+    
     private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsTryGraphCaptureWithMaxBatchSizeDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, int /* int32_t */ maxBatchSize);
     public IntPtr /* OgaResult* */ OgaGeneratorParamsTryGraphCaptureWithMaxBatchSize(IntPtr /* OgaGeneratorParams* */ generatorParams, int /* int32_t */ maxBatchSize)
     {

@@ -26,6 +26,11 @@ namespace MagicOnnxRuntimeGenAi
             new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsSetSearchBool(_generatorParamsHandle, MagicStringUtils.ToUtf8(searchOption), value));
         }
 
+        public void SetGuidance(string type, string data)
+        {
+            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsSetGuidance(_generatorParamsHandle, MagicStringUtils.ToUtf8(type), MagicStringUtils.ToUtf8(data)));
+        }
+
         public void TryGraphCaptureWithMaxBatchSize(int maxBatchSize)
         {
             new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsTryGraphCaptureWithMaxBatchSize(_generatorParamsHandle, maxBatchSize));

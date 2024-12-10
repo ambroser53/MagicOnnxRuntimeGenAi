@@ -15,22 +15,22 @@ namespace OnnxLibraryConverter
             Console.WriteLine("Be sure that Git LFS is installed or this will fail!");
             Console.ResetColor();
 
-            string version = "0.4.0";
+            string version = "0.5.2";
             new NugetHelper().GetOriginalOnnx(version);
             new RuntimeBuilder().BuildRuntimeFolders();
             new RuntimeBuilder().AddRuntimeToOutputLocation("cpu", "MagicOnnxRuntimeGenAi.Cpu");
             new RuntimeBuilder().AddRuntimeToOutputLocation("cuda", "MagicOnnxRuntimeGenAi.Cuda");
             new RuntimeBuilder().AddRuntimeToOutputLocation("dml", "MagicOnnxRuntimeGenAi.DirectML");
 
-            //string nativeMethodsOriginal = File.ReadAllText(@"C:\Source\MagicOnnxRuntimeGenAi\OnnxLibraryConverter\NativeMethods.txt");
+            string nativeMethodsOriginal = File.ReadAllText(@"C:\Source\MagicOnnxRuntimeGenAi\OnnxLibraryConverter\NativeMethods.txt");
 
-            string genAiFolderGithub = "GitHubGenAi";
-            GitHubHelper.CloneGitHubRepo("https://github.com/microsoft/onnxruntime-genai", genAiFolderGithub);
-
-            string genAiFullGithubFolderPath = Path.Combine(Directory.GetCurrentDirectory(), genAiFolderGithub);
-
-            string genAiNativeMethodsPath = Path.Combine(genAiFullGithubFolderPath, "src", "csharp", "NativeMethods.cs");
-            string nativeMethodsOriginal = File.ReadAllText(genAiNativeMethodsPath);
+            // string genAiFolderGithub = "GitHubGenAi";
+            // GitHubHelper.CloneGitHubRepo("https://github.com/microsoft/onnxruntime-genai", genAiFolderGithub);
+            //
+            // string genAiFullGithubFolderPath = Path.Combine(Directory.GetCurrentDirectory(), genAiFolderGithub);
+            //
+            // string genAiNativeMethodsPath = Path.Combine(genAiFullGithubFolderPath, "src", "csharp", "NativeMethods.cs");
+            // string nativeMethodsOriginal = File.ReadAllText(genAiNativeMethodsPath);
 
             //string nativeMethodsOriginal = File.ReadAllText(@"C:\Source\MagicOnnxRuntimeGenAi\OnnxLibraryConverter\OnnxNativeMethods.txt");
 
