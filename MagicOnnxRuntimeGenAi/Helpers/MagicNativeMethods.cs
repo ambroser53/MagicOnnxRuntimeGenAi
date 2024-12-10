@@ -3,7 +3,7 @@ using System;
 
 namespace MagicOnnxRuntimeGenAi
 {
-//GenAI Nuget Version: 0.4.0
+//GenAI Nuget Version: 0.5.2
 public partial class MagicNativeMethods
 {
     public MagicNativeMethods(HardwareType hardwareType)
@@ -40,11 +40,53 @@ public partial class MagicNativeMethods
         method(result);
     }
 
+    private delegate IntPtr /* OgaResult* */ OgaCreateConfigDelegate(byte[] /* const char* */ configPath, out IntPtr /* OgaConfig** */ config);
+    public IntPtr /* OgaResult* */ OgaCreateConfig(byte[] /* const char* */ configPath, out IntPtr /* OgaConfig** */ config)
+    {
+        var method = GetNativeMethod<OgaCreateConfigDelegate>("OgaCreateConfig");
+        return method(configPath, out config);
+    }
+
+    private delegate void OgaDestroyConfigDelegate(IntPtr /* OgaConfig* */ config);
+    public void OgaDestroyConfig(IntPtr /* OgaConfig* */ config)
+    {
+        var method = GetNativeMethod<OgaDestroyConfigDelegate>("OgaDestroyConfig");
+        method(config);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaConfigClearProvidersDelegate(IntPtr /* OgaConfig* */ config);
+    public IntPtr /* OgaResult* */ OgaConfigClearProviders(IntPtr /* OgaConfig* */ config)
+    {
+        var method = GetNativeMethod<OgaConfigClearProvidersDelegate>("OgaConfigClearProviders");
+        return method(config);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaConfigAppendProviderDelegate(IntPtr /* OgaConfig* */ config, byte[] /* const char* */ provider_name);
+    public IntPtr /* OgaResult* */ OgaConfigAppendProvider(IntPtr /* OgaConfig* */ config, byte[] /* const char* */ provider_name)
+    {
+        var method = GetNativeMethod<OgaConfigAppendProviderDelegate>("OgaConfigAppendProvider");
+        return method(config, provider_name);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaConfigSetProviderOptionDelegate(IntPtr /* OgaConfig* */ config, byte[] /* const char* */ provider_name, byte[] /* const char* */ option_name, byte[] /* const char* */ option_value);
+    public IntPtr /* OgaResult* */ OgaConfigSetProviderOption(IntPtr /* OgaConfig* */ config, byte[] /* const char* */ provider_name, byte[] /* const char* */ option_name, byte[] /* const char* */ option_value)
+    {
+        var method = GetNativeMethod<OgaConfigSetProviderOptionDelegate>("OgaConfigSetProviderOption");
+        return method(config, provider_name, option_name, option_value);
+    }
+
     private delegate IntPtr /* OgaResult* */ OgaCreateModelDelegate(byte[] /* const char* */ configPath, out IntPtr /* OgaModel** */ model);
     public IntPtr /* OgaResult* */ OgaCreateModel(byte[] /* const char* */ configPath, out IntPtr /* OgaModel** */ model)
     {
         var method = GetNativeMethod<OgaCreateModelDelegate>("OgaCreateModel");
         return method(configPath, out model);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaCreateModelFromConfigDelegate(IntPtr /* const OgaConfig* */ config, out IntPtr /* OgaModel** */ model);
+    public IntPtr /* OgaResult* */ OgaCreateModelFromConfig(IntPtr /* const OgaConfig* */ config, out IntPtr /* OgaModel** */ model)
+    {
+        var method = GetNativeMethod<OgaCreateModelFromConfigDelegate>("OgaCreateModelFromConfig");
+        return method(config, out model);
     }
 
     private delegate void OgaDestroyModelDelegate(IntPtr /* OgaModel* */ model);
@@ -82,13 +124,6 @@ public partial class MagicNativeMethods
         return method(generatorParams, searchOption, value);
     }
 
-    private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidanceDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data);
-    public IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidance(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data)
-    {
-        var method = GetNativeMethod<OgaGeneratorParamsSetGuidanceDelegate>("OgaGeneratorParamsSetGuidance");
-        return method(generatorParams, type, data);
-    }
-    
     private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsTryGraphCaptureWithMaxBatchSizeDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, int /* int32_t */ maxBatchSize);
     public IntPtr /* OgaResult* */ OgaGeneratorParamsTryGraphCaptureWithMaxBatchSize(IntPtr /* OgaGeneratorParams* */ generatorParams, int /* int32_t */ maxBatchSize)
     {
@@ -101,6 +136,13 @@ public partial class MagicNativeMethods
     {
         var method = GetNativeMethod<OgaGeneratorParamsSetInputIDsDelegate>("OgaGeneratorParamsSetInputIDs");
         return method(generatorParams, inputIDs, inputIDsCount, sequenceLength, batchSize);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidanceDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data);
+    public IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidance(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data)
+    {
+        var method = GetNativeMethod<OgaGeneratorParamsSetGuidanceDelegate>("OgaGeneratorParamsSetGuidance");
+        return method(generatorParams, type, data);
     }
 
     private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetInputSequencesDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, IntPtr /* const OgaSequences* */ sequences);
@@ -171,6 +213,20 @@ public partial class MagicNativeMethods
     {
         var method = GetNativeMethod<OgaGenerator_GetSequenceDataDelegate>("OgaGenerator_GetSequenceData");
         return method(generator, index);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaGenerator_GetOutputDelegate(IntPtr /* cosnt OgaGenerator* */ generator, byte[] outputName, out IntPtr tensor);
+    public IntPtr /* OgaResult* */ OgaGenerator_GetOutput(IntPtr /* cosnt OgaGenerator* */ generator, byte[] outputName, out IntPtr tensor)
+    {
+        var method = GetNativeMethod<OgaGenerator_GetOutputDelegate>("OgaGenerator_GetOutput");
+        return method(generator, outputName, out tensor);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaSetActiveAdapterDelegate(IntPtr /* OgaGenerator* */ generator, IntPtr /* OgaAdapters* */ adapters, byte[] /*const char**/ adapterName);
+    public IntPtr /* OgaResult* */ OgaSetActiveAdapter(IntPtr /* OgaGenerator* */ generator, IntPtr /* OgaAdapters* */ adapters, byte[] /*const char**/ adapterName)
+    {
+        var method = GetNativeMethod<OgaSetActiveAdapterDelegate>("OgaSetActiveAdapter");
+        return method(generator, adapters, adapterName);
     }
 
     private delegate IntPtr /* OgaResult* */ OgaCreateSequencesDelegate(out IntPtr /* OgaSequences** */ sequences);
@@ -409,6 +465,34 @@ public partial class MagicNativeMethods
     {
         var method = GetNativeMethod<OgaDestroyStringArrayDelegate>("OgaDestroyStringArray");
         method(stringArray);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaCreateAdaptersDelegate(IntPtr /* const OgaModel* */ model, out IntPtr /* OgaAdapters** */ adapters);
+    public IntPtr /* OgaResult* */ OgaCreateAdapters(IntPtr /* const OgaModel* */ model, out IntPtr /* OgaAdapters** */ adapters)
+    {
+        var method = GetNativeMethod<OgaCreateAdaptersDelegate>("OgaCreateAdapters");
+        return method(model, out adapters);
+    }
+
+    private delegate void OgaDestroyAdaptersDelegate(IntPtr /* OgaAdapters* */ adapters);
+    public void OgaDestroyAdapters(IntPtr /* OgaAdapters* */ adapters)
+    {
+        var method = GetNativeMethod<OgaDestroyAdaptersDelegate>("OgaDestroyAdapters");
+        method(adapters);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaLoadAdapterDelegate(IntPtr /* OgaAdapters* */ adapters, byte[] /* const char* */ adapterFilePath, byte[] /* const char* */ adapterName);
+    public IntPtr /* OgaResult* */ OgaLoadAdapter(IntPtr /* OgaAdapters* */ adapters, byte[] /* const char* */ adapterFilePath, byte[] /* const char* */ adapterName)
+    {
+        var method = GetNativeMethod<OgaLoadAdapterDelegate>("OgaLoadAdapter");
+        return method(adapters, adapterFilePath, adapterName);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaUnloadAdapterDelegate(IntPtr /* OgaAdapters* */ adapters, byte[] /* const char* */ adapterName);
+    public IntPtr /* OgaResult* */ OgaUnloadAdapter(IntPtr /* OgaAdapters* */ adapters, byte[] /* const char* */ adapterName)
+    {
+        var method = GetNativeMethod<OgaUnloadAdapterDelegate>("OgaUnloadAdapter");
+        return method(adapters, adapterName);
     }
 }
 }

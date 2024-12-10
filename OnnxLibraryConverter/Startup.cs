@@ -22,7 +22,7 @@ namespace OnnxLibraryConverter
             new RuntimeBuilder().AddRuntimeToOutputLocation("cuda", "MagicOnnxRuntimeGenAi.Cuda");
             new RuntimeBuilder().AddRuntimeToOutputLocation("dml", "MagicOnnxRuntimeGenAi.DirectML");
 
-            string nativeMethodsOriginal = File.ReadAllText(@"C:\Source\MagicOnnxRuntimeGenAi\OnnxLibraryConverter\NativeMethods.txt");
+            string nativeMethodsOriginal = File.ReadAllText(@"C:\Users\Ambrose\RiderProjects\MagicOnnxRuntimeGenAi\OnnxLibraryConverter\NativeMethods.txt");
 
             // string genAiFolderGithub = "GitHubGenAi";
             // GitHubHelper.CloneGitHubRepo("https://github.com/microsoft/onnxruntime-genai", genAiFolderGithub);
