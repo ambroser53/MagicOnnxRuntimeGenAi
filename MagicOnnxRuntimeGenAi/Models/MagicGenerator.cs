@@ -15,12 +15,28 @@ namespace MagicOnnxRuntimeGenAi
         }
         public bool IsDone()
         {
-            return _MagicNativeMethods.OgaGenerator_IsDone(_generatorHandle);
+            return _MagicNativeMethods.OgaGenerator_IsDone(_generatorHandle) != 0;
         }
 
-        public void ComputeLogits()
+        public void AppendTokens(ReadOnlySpan<int> tokens)
         {
-            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGenerator_ComputeLogits(_generatorHandle));
+            unsafe
+            {
+                fixed (int* tokenIDsPtr = tokens)
+                {
+                    new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGenerator_AppendTokens(_generatorHandle, tokenIDsPtr, (UIntPtr)tokens.Length));
+                }
+            }
+        }
+
+        public void AppendTokenSequences(MagicSequences sequences)
+        {
+            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGenerator_AppendTokenSequences(_generatorHandle, sequences.Handle));
+        }
+
+        public void RewindTo(ulong index)
+        {
+            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGenerator_RewindTo(_generatorHandle, (UIntPtr)index));
         }
 
         public void GenerateNextToken()
@@ -32,6 +48,13 @@ namespace MagicOnnxRuntimeGenAi
         {
             ulong num = _MagicNativeMethods.OgaGenerator_GetSequenceCount(_generatorHandle, (nuint)index).ToUInt64();
             return new ReadOnlySpan<int>(_MagicNativeMethods.OgaGenerator_GetSequenceData(_generatorHandle, (nuint)index).ToPointer(), (int)num);
+        }
+        
+        public void SetActiveAdapter(MagicAdapters adapters, string adapterName)
+        {
+            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaSetActiveAdapter(_generatorHandle,
+                adapters.Handle,
+                MagicStringUtils.ToUtf8(adapterName)));
         }
 
         ~MagicGenerator()

@@ -101,20 +101,19 @@ namespace Test.MagicAiLogic
             var generatorParams = new MagicGeneratorParams(model);
             //generatorParams.SetSearchOption("max_length", tokenLimit);  // Adjust to token limit
             //generatorParams.SetSearchOption("past_present_share_buffer", true);
-            generatorParams.SetInputSequences(tokens);
             generatorParams.TryGraphCaptureWithMaxBatchSize(1);
             // Variable to hold the assistant's full response
             var fullResponse = new System.Text.StringBuilder();
 
             // Generate the response
             var generator = new MagicGenerator(model, generatorParams);
+            generator.AppendTokenSequences(tokens);
             int outputTokens = 0;
 
             // Output the response token by token as it's generated
             Console.WriteLine("Assistant: ");
             while (!generator.IsDone())
             {
-                generator.ComputeLogits();  // Compute the next logits
                 generator.GenerateNextToken();  // Generate the next token
 
                 var outputTokensSequence = generator.GetSequence(0);

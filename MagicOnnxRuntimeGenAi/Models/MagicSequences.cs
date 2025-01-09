@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MagicOnnxRuntimeGenAi
 {
-    public class MagicSequences
+    public class MagicSequences : IDisposable
     {
         public IntPtr _sequencesHandle;
         private bool _disposed;

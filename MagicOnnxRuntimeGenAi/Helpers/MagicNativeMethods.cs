@@ -131,25 +131,11 @@ public partial class MagicNativeMethods
         return method(generatorParams, maxBatchSize);
     }
 
-    private unsafe delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetInputIDsDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, int* /* const int32_t* */ inputIDs, UIntPtr /* size_t */ inputIDsCount, UIntPtr /* size_t */ sequenceLength, UIntPtr /* size_t */ batchSize);
-    public unsafe IntPtr /* OgaResult* */ OgaGeneratorParamsSetInputIDs(IntPtr /* OgaGeneratorParams* */ generatorParams, int* /* const int32_t* */ inputIDs, UIntPtr /* size_t */ inputIDsCount, UIntPtr /* size_t */ sequenceLength, UIntPtr /* size_t */ batchSize)
-    {
-        var method = GetNativeMethod<OgaGeneratorParamsSetInputIDsDelegate>("OgaGeneratorParamsSetInputIDs");
-        return method(generatorParams, inputIDs, inputIDsCount, sequenceLength, batchSize);
-    }
-
     private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidanceDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data);
     public IntPtr /* OgaResult* */ OgaGeneratorParamsSetGuidance(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ type, byte[] /* const char* */ data)
     {
         var method = GetNativeMethod<OgaGeneratorParamsSetGuidanceDelegate>("OgaGeneratorParamsSetGuidance");
         return method(generatorParams, type, data);
-    }
-
-    private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetInputSequencesDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, IntPtr /* const OgaSequences* */ sequences);
-    public IntPtr /* OgaResult* */ OgaGeneratorParamsSetInputSequences(IntPtr /* OgaGeneratorParams* */ generatorParams, IntPtr /* const OgaSequences* */ sequences)
-    {
-        var method = GetNativeMethod<OgaGeneratorParamsSetInputSequencesDelegate>("OgaGeneratorParamsSetInputSequences");
-        return method(generatorParams, sequences);
     }
 
     private delegate IntPtr /* OgaResult* */ OgaGeneratorParamsSetModelInputDelegate(IntPtr /* OgaGeneratorParams* */ generatorParams, byte[] /* const char* */ name, IntPtr /* const OgaTensor* */ tensor);
@@ -180,17 +166,10 @@ public partial class MagicNativeMethods
         method(generator);
     }
 
-    private delegate bool OgaGenerator_IsDoneDelegate(IntPtr /* const OgaGenerator* */ generator);
-    public bool OgaGenerator_IsDone(IntPtr /* const OgaGenerator* */ generator)
+    private delegate byte OgaGenerator_IsDoneDelegate(IntPtr /* const OgaGenerator* */ generator);
+    public byte OgaGenerator_IsDone(IntPtr /* const OgaGenerator* */ generator)
     {
         var method = GetNativeMethod<OgaGenerator_IsDoneDelegate>("OgaGenerator_IsDone");
-        return method(generator);
-    }
-
-    private delegate IntPtr /* OgaResult* */ OgaGenerator_ComputeLogitsDelegate(IntPtr /* OgaGenerator* */ generator);
-    public IntPtr /* OgaResult* */ OgaGenerator_ComputeLogits(IntPtr /* OgaGenerator* */ generator)
-    {
-        var method = GetNativeMethod<OgaGenerator_ComputeLogitsDelegate>("OgaGenerator_ComputeLogits");
         return method(generator);
     }
 
@@ -199,6 +178,27 @@ public partial class MagicNativeMethods
     {
         var method = GetNativeMethod<OgaGenerator_GenerateNextTokenDelegate>("OgaGenerator_GenerateNextToken");
         return method(generator);
+    }
+
+    private unsafe delegate IntPtr /* OgaResult* */ OgaGenerator_AppendTokensDelegate(IntPtr /* OgaGenerator* */ generator, int* /* const int32_t* */ inputIDs, UIntPtr /* size_t */ tokenCount);
+    public unsafe IntPtr /* OgaResult* */ OgaGenerator_AppendTokens(IntPtr /* OgaGenerator* */ generator, int* /* const int32_t* */ inputIDs, UIntPtr /* size_t */ tokenCount)
+    {
+        var method = GetNativeMethod<OgaGenerator_AppendTokensDelegate>("OgaGenerator_AppendTokens");
+        return method(generator, inputIDs, tokenCount);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaGenerator_AppendTokenSequencesDelegate(IntPtr /* OgaGenerator* */ generator, IntPtr /* const OgaSequences* */ sequences);
+    public IntPtr /* OgaResult* */ OgaGenerator_AppendTokenSequences(IntPtr /* OgaGenerator* */ generator, IntPtr /* const OgaSequences* */ sequences)
+    {
+        var method = GetNativeMethod<OgaGenerator_AppendTokenSequencesDelegate>("OgaGenerator_AppendTokenSequences");
+        return method(generator, sequences);
+    }
+
+    private delegate IntPtr /* OgaResult* */ OgaGenerator_RewindToDelegate(IntPtr /* OgaGenerator* */ generator, UIntPtr /* size_t */ newLength);
+    public IntPtr /* OgaResult* */ OgaGenerator_RewindTo(IntPtr /* OgaGenerator* */ generator, UIntPtr /* size_t */ newLength)
+    {
+        var method = GetNativeMethod<OgaGenerator_RewindToDelegate>("OgaGenerator_RewindTo");
+        return method(generator, newLength);
     }
 
     private delegate UIntPtr /* size_t */ OgaGenerator_GetSequenceCountDelegate(IntPtr /* const OgaGenerator* */ generator, UIntPtr /* size_t */ index);
@@ -262,13 +262,6 @@ public partial class MagicNativeMethods
     {
         var method = GetNativeMethod<OgaSequencesGetSequenceDataDelegate>("OgaSequencesGetSequenceData");
         return method(sequences, sequenceIndex);
-    }
-
-    private delegate IntPtr /* OgaResult* */ OgaGenerateDelegate(IntPtr /* const OgaModel* */ model, IntPtr /* const OgaGeneratorParams* */ generatorParams, out IntPtr /* OgaSequences** */ sequences);
-    public IntPtr /* OgaResult* */ OgaGenerate(IntPtr /* const OgaModel* */ model, IntPtr /* const OgaGeneratorParams* */ generatorParams, out IntPtr /* OgaSequences** */ sequences)
-    {
-        var method = GetNativeMethod<OgaGenerateDelegate>("OgaGenerate");
-        return method(model, generatorParams, out sequences);
     }
 
     private delegate IntPtr /* OgaResult* */ OgaCreateTokenizerDelegate(IntPtr /* const OgaModel* */ model, out IntPtr /* OgaTokenizer** */ tokenizer);

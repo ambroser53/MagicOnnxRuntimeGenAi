@@ -30,6 +30,11 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Update="dml\runtimes\win-x64\native\D3D12Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\any\any</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

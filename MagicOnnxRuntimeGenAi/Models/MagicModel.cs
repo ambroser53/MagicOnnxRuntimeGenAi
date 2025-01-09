@@ -79,13 +79,6 @@ namespace MagicOnnxRuntimeGenAi
             return HardwareType.cpu;
         }
 
-        public MagicSequences Generate(MagicGeneratorParams generatorParams)
-        {
-            IntPtr sequences = IntPtr.Zero;
-            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGenerate(_modelHandle, generatorParams.Handle, out sequences));
-            return new MagicSequences(sequences, this);
-        }
-
         ~MagicModel()
         {
             Dispose(disposing: false);

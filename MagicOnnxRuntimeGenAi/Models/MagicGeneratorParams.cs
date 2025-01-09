@@ -36,19 +36,6 @@ namespace MagicOnnxRuntimeGenAi
             new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsTryGraphCaptureWithMaxBatchSize(_generatorParamsHandle, maxBatchSize));
         }
 
-        public unsafe void SetInputIDs(ReadOnlySpan<int> inputIDs, ulong sequenceLength, ulong batchSize)
-        {
-            fixed (int* inputIDs2 = inputIDs)
-            {
-                new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsSetInputIDs(_generatorParamsHandle, inputIDs2, (nuint)inputIDs.Length, (nuint)sequenceLength, (nuint)batchSize));
-            }
-        }
-
-        public void SetInputSequences(MagicSequences sequences)
-        {
-            new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsSetInputSequences(_generatorParamsHandle, sequences.Handle));
-        }
-
         public void SetModelInput(string name, MagicTensor value)
         {
             new MagicResult(_MagicNativeMethods).VerifySuccess(_MagicNativeMethods.OgaGeneratorParamsSetModelInput(_generatorParamsHandle, MagicStringUtils.ToUtf8(name), value.Handle));
